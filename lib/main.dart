@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'add.dart';
 import 'services/database_service.dart';
 import 'models/football_item.dart';
 import 'dart:math';
@@ -18,7 +18,7 @@ class FootballClashApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Football Clash',
+      title: 'Tic Tac Toc',
       theme: ThemeData(primarySwatch: Colors.green, fontFamily: 'Tajawal'),
       home: const FootballClashGame(),
       debugShowCheckedModeBanner: false,
@@ -66,7 +66,8 @@ class FootballClashGameState extends State<FootballClashGame>
 
   late AnimationController _timerController;
   late Animation<double> _timerAnimation;
-  int _timeLimit = 15;
+  final int _timeLimit = 15;
+  // ignore: unused_field
   bool _isTimerRunning = false;
 
   // للتحكم في التأثيرات
@@ -83,7 +84,9 @@ class FootballClashGameState extends State<FootballClashGame>
   }
 
   void loadData() {
-    footballItems = DatabaseService.getFootballItems();
+    setState(() {
+      footballItems = DatabaseService.getFootballItems();
+    });
   }
 
   void _initTimer() {
@@ -497,11 +500,15 @@ class FootballClashGameState extends State<FootballClashGame>
         ),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () async{
-            await DatabaseService.clearAllData();
-            await DatabaseService.a();
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const Add()),
+            );
+            loadData();
+            resetGame();
           },
-          icon: const Icon(Icons.add_call),
+          icon: const Icon(Icons.add),
         ),
         actions: [
           IconButton(
@@ -611,7 +618,7 @@ class FootballClashGameState extends State<FootballClashGame>
                       const SizedBox(width: 80), // مساحة أكبر للتسميات الجانبية
                       ...List.generate(
                         3,
-                        (col) => Container(
+                        (col) => SizedBox(
                           width: 100, // عرض ثابت لكل عمود
                           child: Center(
                             child: Text(
@@ -643,7 +650,7 @@ class FootballClashGameState extends State<FootballClashGame>
                     Container(
                       width: 100, // عرض ثابت للتسميات الجانبية
                       margin: const EdgeInsets.only(
-                        top: 45,
+                        top: 20,
                       ), // محاذاة مع منتصف الصف الأول
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

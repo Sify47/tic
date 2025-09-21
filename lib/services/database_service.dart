@@ -11,7 +11,9 @@ class DatabaseService {
 
     // فتح الصندوق
     await Hive.openBox<FootballItem>('footballItems');
-    
+    // final itemsBox = Hive.box<FootballItem>('footballItems');
+
+    await clearAllData();
     // إضافة بيانات أولية إذا كان الصندوق فارغاً
     await a();
   }
@@ -19,7 +21,7 @@ class DatabaseService {
   static Future<void> a() async {
     final itemsBox = Hive.box<FootballItem>('footballItems');
 
-    await itemsBox.clear();
+    // await clearAllData();
     if (itemsBox.isEmpty) {
       // قائمة الأسماء
       List<String> initialItems = [
@@ -34,12 +36,26 @@ class DatabaseService {
         'نيمار',
         'ارسنال',
         'تشيلسى',
-        'مانشيستر يونايتد',
-        'مانشيستر سيتى',
+        'مانشستر يونايتد',
+        'مانشستر سيتى',
         'كاكا',
         'زيدان',
         'نيمار',
         'نابولى',
+        'ميلان',
+        'مبابى',
+        'راموس',
+        'عثمان ديمبيلي',
+        "فان دايك",
+        'انتر ميلان',
+        'البرازيل',
+        'المانيا',
+        'اليورو',
+        'الحذاء الذهبى',
+        'كاس الامم الافريقيه',
+        'كاس العالم',
+        'كاس العالم للانديه',
+        'باريس سان جيرمان',
         'روبرت ليفاندوفسكي',
       ];
 
@@ -51,10 +67,10 @@ class DatabaseService {
     }
   }
 
-  
   static List<FootballItem> getFootballItems() {
     return Hive.box<FootballItem>('footballItems').values.toList();
   }
+
   static Future<void> clearAllData() async {
     final itemsBox = Hive.box<FootballItem>('footballItems');
     await itemsBox.clear();

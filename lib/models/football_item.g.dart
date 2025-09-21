@@ -16,7 +16,9 @@ class FootballItemAdapter extends TypeAdapter<FootballItem> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FootballItem(name: fields[0] as String);
+    return FootballItem(
+      name: fields[0] as String,
+    );
   }
 
   @override
